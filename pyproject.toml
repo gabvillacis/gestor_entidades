@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "gestor-entidades"
+version = "0.1.0"
+description = "Proyecto Django para gestionar catastro de entidades registradas en la DPE"
+authors = ["Gabriel Villacis <gab_villacis@hotmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.0.4"
+psycopg2-binary = "^2.9.9"
+django-extensions = "^3.2.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
