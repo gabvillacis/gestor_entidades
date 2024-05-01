@@ -39,3 +39,6 @@ class ParroquiaAdmin(admin.ModelAdmin):
 class TipoGadAdmin(admin.ModelAdmin):
     list_display = ('id', 'nombre', 'fecha_registro', 'fecha_ult_act')
 
+@admin.register(Entidad)
+class EntidadAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nombre', 'tipo_organizacion', 'fecha_registro', 'fecha_ult_act')

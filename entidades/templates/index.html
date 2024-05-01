@@ -1,0 +1,256 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro de Entidades de la DPE</title>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body> 
+
+    <div class="container my-3">
+        <h1 class="text-center">Registro de Entidad</h1>        
+        <form class="my-2 row g-3 needs-validation" id="form-entidad" novalidate> 
+            {% csrf_token %}
+            
+            <div class="col-md-6">
+                <label for="input-ruc" class="form-label fw-bold">RUC</label>
+                <input type="text" class="form-control" id="input-ruc" name="ruc" required maxlength="13" minlength="13">
+                <div class="invalid-feedback">
+                    Este campo es obligatorio y debe tener 13 caracteres.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="input-nombre" class="form-label fw-bold">Nombre</label>
+                <input type="text" class="form-control" id="input-nombre" name="nombre" required maxlength="250" minlength="10">
+                <div class="invalid-feedback">
+                    Este campo es obligatorio, debe tener min. 10 y máx 250 caracteres.
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label class="form-label fw-bold">Tipo de Organización</label>                
+                {% for tipo_org in tipos_organizaciones %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="tipo_organizacion" value="{{tipo_org.id}}" id="input-tipo-org-{{tipo_org.id}}" {% if forloop.first %} checked {% endif %}>
+                        <label class="form-check-label" for="input-tipo-org-{{tipo_org.id}}">{{tipo_org.nombre}}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                <label for="select-tipo-entidad" class="form-label fw-bold">Tipo de Entidad</label>
+                <select class="form-select" id="select-tipo-entidad" name="tipo_entidad" required>
+                    <option value="" selected disabled>Seleccione...</option>
+                    {% for tipo_ent in tipos_entidades %}
+                        <option value="{{tipo_ent.id}}">{{tipo_ent.nombre}}</option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="select-funcion" class="form-label fw-bold">Función</label>
+                <select class="form-select" id="select-funcion" name="funcion" required>
+                    <option value="" selected disabled>Seleccione...</option>
+                    {% for funcion in funciones %}
+                        <option value="{{funcion.id}}">{{funcion.nombre}}</option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label class="form-label fw-bold">Control SNAP (Secretaría Nacional de la Administración Pública/Secretaría Técnica de Transparencia de Gestión):)</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="control_snap" value="1" id="input-control-snap-1" checked>
+                    <label class="form-check-label" for="input-control-snap-1">SI</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="control_snap" value="0" id="input-control-snap-0">
+                    <label class="form-check-label" for="input-control-snap-0">NO</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="select-ambito-accion" class="form-label fw-bold">Ámbito de Acción</label>
+                <select class="form-select" id="select-ambito-accion" name="ambito_accion" required>
+                    <option value="" selected disabled>Seleccione...</option>
+                    {% for ambito_accion in ambitos_accion %}
+                        <option value="{{ambito_accion.id}}">{{ambito_accion.nombre}}</option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                </div>
+            </div>
+            <h4 class="text-center">Ubicación de la Entidad</h4>
+            <hr>
+            <div class="col-md-6">
+                <label for="select-zonal" class="form-label fw-bold">Zonal</label>
+                <select class="form-select" id="select-zonal" name="zonal" required>
+                    <option value="" selected disabled>Seleccione...</option>
+                    {% for zonal in zonales %}
+                        <option value="{{zonal.id}}">{{zonal.nombre}}</option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="select-provincia" class="form-label fw-bold">Provincia</label>
+                <select class="form-select" id="select-provincia" name="provincia" required>
+                    <option value="" selected disabled>Seleccione...</option>
+                    {% for provincia in provincias %}
+                        <option value="{{provincia.id}}">{{provincia.nombre}}</option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="select-canton" class="form-label fw-bold">Cantón</label>
+                <select class="form-select" id="select-canton" name="canton" required>
+                </select>
+                <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="select-parroquia" class="form-label fw-bold">Parroquia</label>
+                <select class="form-select" id="select-parroquia" name="parroquia" required>
+                </select>
+                <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label for="input-direccion" class="form-label fw-bold">Dirección</label>
+                <input type="text" class="form-control" id="input-direccion" name="direccion" required maxlength="150">
+                <div class="invalid-feedback">
+                    Este campo es obligatorio y debe tener máx. 150 caracteres.
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="input-telefono" class="form-label fw-bold">Teféfono</label>
+                <input type="text" class="form-control" id="input-telefono" name="telefono" required minlength="9" maxlength="10">
+                <div class="invalid-feedback">
+                    Este campo es obligatorio y debe tener min. 9 y máx. 10 caracteres.
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="input-correo-institucional" class="form-label fw-bold">Correo institucional</label>
+                <input type="email" class="form-control" id="input-correo-institucional" name="correo_institucional" required maxlength="30">
+                <div class="invalid-feedback">
+                    Este campo es obligatorio y debe tener máx. 30 caracteres.
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="select-tipo-gad" class="form-label fw-bold">Tipo de GAD</label>
+                <select class="form-select" id="select-tipo-gad" name="tipo_gad" required>
+                    <option value="" selected disabled>Seleccione...</option>
+                    {% for tipo_gad in tipos_gad %}
+                        <option value="{{tipo_gad.id}}">{{tipo_gad.nombre}}</option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                </div>
+            </div>
+            <h4 class="text-center">Datos legales de la Entidad</h4>
+            <hr>
+            <div class="col-md-12">
+                <label for="area-base-normativa" class="form-label fw-bold">Base Normativa</label>
+                <textarea class="form-control" id="area-base-normativa" name="base_normativa" rows="10" required></textarea>
+                <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="area-base-normativa" class="form-label fw-bold">Fecha Publicación Base Legal</label>                
+                <input type="date" class="form-control" id="input-fecha-pub-base-legal" name="fecha_publicacion_base_legal" min="1900-01-01" required/>
+                <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="input-num-registro-oficial" class="form-label fw-bold">No. Registro Oficial</label>
+                <input type="text" class="form-control" id="input-num-registro-oficial" name="num_registro_oficial" required maxlength="25">
+                <div class="invalid-feedback">
+                    Este campo es obligatorio y debe tener máx. 25 caracteres.
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label for="area-nota-aclaracion" class="form-label fw-bold">Nota de aclaración alguna particularidad</label>
+                <textarea class="form-control" id="area-nota-aclaracion" name="nota_aclaracion" rows="3" required></textarea>
+                <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label for="input-nombres-max-autoridad" class="form-label fw-bold">Nombres de la máx. autoridad</label>
+                <input type="text" class="form-control" id="input-nombres-max-autoridad" name="nombres_maxima_autoridad" required maxlength="100">
+                <div class="invalid-feedback">
+                    Este campo es obligatorio y debe tener máx. 100 caracteres.
+                </div>
+            </div>
+            <h4 class="text-center">Datos del responsable de ingresar informe anual</h4>
+            <hr>
+            <div class="col-md-12">
+                <label for="input-nombres-responsable" class="form-label fw-bold">Nombres del responsable</label>
+                <input type="text" class="form-control" id="input-nombres-responsable" name="nombres_responsable" required maxlength="100">
+                <div class="invalid-feedback">
+                    Este campo es obligatorio y debe tener máx. 100 caracteres.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="input-correo-responsable" class="form-label fw-bold">Correo</label>
+                <input type="email" class="form-control" id="input-correo-responsable" name="correo_responsable" required maxlength="30">
+                <div class="invalid-feedback">
+                    Este campo es obligatorio y debe tener máx. 30 caracteres.
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="input-telef-responsable" class="form-label fw-bold">Teléfono</label>
+                <input type="text" class="form-control" id="input-telef-responsable" name="telefono_responsable" required minlength="9" maxlength="10">
+                <div class="invalid-feedback">
+                    Este campo es obligatorio y debe tener min. 9 y máx. 10 caracteres.
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="input-ext-telef-responsable" class="form-label fw-bold">Ext. Teléfono</label>
+                <input type="text" class="form-control" id="input-ext-telef-responsable" name="extension_telef_responsable" required minlength="3" maxlength="5">
+                <div class="invalid-feedback">
+                    Este campo es obligatorio y debe tener min. 3 y máx. 5 caracteres.
+                </div>
+            </div>
+            <h4 class="text-center">Adjuntos</h4>
+            <hr>
+            <div class="col-md-12">
+                <label for="input-file-ordenanza" class="form-label fw-bold">Ordenanza (pdf)</label>
+                <input class="form-control" type="file" id="input-file-ordenanza" name="file_ordenanza">
+            </div>
+            <div class="col-md-12">
+                <label for="input-file-reg-oficial" class="form-label fw-bold">Registro Oficial (pdf)</label>
+                <input class="form-control" type="file" id="input-file-reg-oficial" name="file_registro_oficial">
+            </div>
+            <div class="col-md-12">
+                <label for="input-file-ruc" class="form-label fw-bold">RUC (pdf)</label>
+                <input class="form-control" type="file" id="input-file-ruc" name="file_ruc">
+            </div>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">Registrar</button>
+                <button type="reset" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{% static 'js/form-entidad.js' %}"></script>
+</body>   
+</html>
